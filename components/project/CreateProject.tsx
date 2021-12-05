@@ -15,7 +15,14 @@ import {
   } from "@chakra-ui/react";
 import { BigNumber } from '@ethersproject/bignumber';
 import {FC, useCallback, useRef, useState} from 'react';
-import {useCreateCampaign} from '../../pages/api/contract';
+import {useCreateCampaign, useContractMethod } from '../../pages/api/contract2';
+import { Contract } from "@usedapp/core/node_modules/ethers";
+import { ethers, Signer } from "ethers";
+import campaignGeneratorABI from "../../pages/api/CampaignGeneratorContract.json";
+import { useContractFunction } from "@usedapp/core";
+
+const campaignGeneratorAddress = "0xe1638d0f9f2618D8b5336aa5E7E305BD1cd2Cd7b";
+const campaignGeneratorInterface = new ethers.utils.Interface(campaignGeneratorABI);
 
 export const tokenNameToAddressMapping = new Map<string, string>([
     ['BUSD', "0x78867bbeef44f2326bf8ddd1941a4439382ef2a7"],
@@ -27,30 +34,31 @@ interface CampaignProps {
   tokenAddress: string;
 }
 
-const CreateCampaign: FC<CampaignProps> = ({name, number, tokenAddress}) => {
-  useCreateCampaign(name, BigNumber.from(number), tokenAddress);
-  return (<></>);
-}
+// TODO: refresh the state once metamask confirms
+
+const campaignGeneratorContract = new Contract(campaignGeneratorAddress, campaignGeneratorInterface);
 
 const CreateProject: FC<{}> = () => {
     
-      const { isOpen, onOpen, onClose } = useDisclosure()
+      const { isOpen, onOpen, onClose } = useDisclosure();
+
+      const { state: setCreateCampaignState, send: createCampaign } = useContractFunction(campaignGeneratorContract, "createCampaign", {});
+
+
       const [name, setName] = useState('');
       const [targetDonation, setTargetDonation] = useState('');
       const [currency, setCurrency] = useState('');
-      // const createCampaige = useCreateCampaign("test", BigNumber.from(4267436723), "0x78867bbeef44f2326bf8ddd1941a4439382ef2a7");
 
       const initialRef = useRef();
       const finalRef = useRef();
       const handleNameChange = (event) => setName(event.target.value);
       const handleGoalChange = (event) => setTargetDonation(event.target.value)
       const handleCurrencyChange = (event) => setCurrency(event.target.value)
-
-      const [createdClicked, setCreatedClicked] = useState(false);
+      const [createdClicked, setCreateClicked] = useState(false);
 
       const onCreateProjectClick = (name, goal, tokenName) => {
-          console.log(name, BigNumber.from(goal), tokenNameToAddressMapping.get(tokenName));
-          setCreatedClicked(true);
+          createCampaign(name, BigNumber.from(goal), tokenNameToAddressMapping.get(tokenName));
+          setCreateClicked(true);
           onClose();
       };
 
@@ -108,7 +116,6 @@ const CreateProject: FC<{}> = () => {
               </ModalFooter>
             </ModalContent>
           </Modal>
-          {createdClicked ? <CreateCampaign name={name} number={targetDonation} tokenAddress={tokenNameToAddressMapping.get(currency)} /> : <></>}
         </>
       );
   
