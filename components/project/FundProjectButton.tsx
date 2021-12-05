@@ -14,6 +14,8 @@ import {
     Select
   } from "@chakra-ui/react";
 import {FC, useState} from 'react';
+import { approve } from "../../pages/api/contract";
+import { tokenNameToAddressMapping } from "./CreateProject";
 
 // TODO: amount * 10 ** (18+1) be sure to submit with this amount to metamask api.
 
@@ -25,16 +27,19 @@ const FundProjectButton: FC<Props> = (campaignAddress) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [amount, setAmount] = useState('');
+    const [tokenName, setTokenName] = useState('');
     const [isApproved, setApproved] = useState(false);
 
     const handleDonateChange = (event) => setAmount(event.target.value);
+    const handleTokenChange = (event) => setTokenName(event.target.value);
 
     const onProjectDonation = (number) => {
         console.log(parseInt(number));
     }
 
-    const onApproveSpending = (campaignAddress) => {
+    const onApproveSpending = (campaignAddress, approveAmount, tokenName) => {
         // Call approve spending for campaign contract
+        approve(campaignAddress, approveAmount, tokenNameToAddressMapping[tokenName]);
         console.log(campaignAddress);
         setApproved(true);
     }
@@ -54,6 +59,12 @@ const FundProjectButton: FC<Props> = (campaignAddress) => {
                     <FormLabel>Donation</FormLabel>
                     <Input placeholder='donation amount' onChange={handleDonateChange}/>
                   </FormControl>
+                  <FormControl id='country'>
+                    <FormLabel>Currency</FormLabel>
+                    <Select placeholder='select currency' onChange={handleTokenChange}>
+                        <option> BUSD </option>
+                    </Select>
+                  </FormControl>
       
                 </ModalBody>
       
@@ -62,7 +73,7 @@ const FundProjectButton: FC<Props> = (campaignAddress) => {
                   {isApproved ? <Button colorScheme='blue' mr={3} onClick={() => onProjectDonation(amount)}>
                     Donate
                   </Button> : 
-                  <Button colorScheme='blue' mr={3} onClick={() => onApproveSpending(campaignAddress)}>
+                  <Button colorScheme='blue' mr={3} onClick={() => onApproveSpending(campaignAddress, amount, tokenName)}>
                     Approve Spending
                 </Button>
                   }  
