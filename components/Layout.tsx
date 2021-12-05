@@ -4,6 +4,7 @@ import { Flex, useDisclosure } from "@chakra-ui/react";
 import ConnectButton from "./ConnectButton";
 import { Tabs, TabPanel, TabList, TabPanels, Tab } from "@chakra-ui/tabs";
 import AccountModal from "./AccountModal";
+import Table from "./Table";
 
 interface LayoutProps {
     children?: ReactNode;
@@ -34,13 +35,13 @@ const Layout: FC<LayoutProps> = ({children}) => {
 
         <TabPanels>
           <TabPanel>
-            <p>TODO add table</p>
+            <Table/>
           </TabPanel>
           <TabPanel>
-            <p> 2 TODO add table</p>
+           <Table/>
           </TabPanel>
           <TabPanel>
-            <p>3 TODO add table</p>
+           <Table/>
           </TabPanel>
         </TabPanels>
       </Tabs>
