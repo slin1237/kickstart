@@ -92,7 +92,7 @@ interface IBEP20 {
      */
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
-contract CampaignGenertor {
+contract CampaignGenerator {
  
     address[] public campaigns;
     struct campaign {
