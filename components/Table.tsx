@@ -13,31 +13,25 @@ interface TableProps {
 }
 //0xf4F0d31c53027375480c1D494c39b1Dbc6202B20,0x13f5511cbb12004F4ECAEa7a7A34C63d11B67539,0x0aa93445C0f43C2b1F894Aac7B4F8B47d42631c8
 function DataTable() {
-//   const campaignInterface = new ethers.utils.Interface(campaignABI);
-//   const campaigns = useGetCampaign()
-//   console.log(campaigns)
-//   const campaignData = []
-// TODO: actually get the table.
-//   if (campaigns !== undefined){
-//     campaigns.forEach((addy) => {
-//     var contract = new ethers.Contract(addy, campaignInterface, new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545/"));
-      
-//       try {
-        
-//       } catch (e) {
-//         console.log(e);
-//       }
-      
-//       campaignData.push(
-//         {
-//           Name: "contract.name",
-//           Goal: "test",
-//           Funding: "test",
-//           address: addy,
-//         }
-//       );
-//     });
-//   }
+
+  const campaignInterface = new ethers.utils.Interface(campaignABI);
+  const campaigns = useGetCampaign()
+  console.log(campaigns)
+  const campaignData = []
+  if (campaigns !== undefined){
+    campaigns.forEach((e) => {
+      var contract = new ethers.Contract(e, campaignInterface, new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545/"));
+      var test = contract.name();
+      console.log(test);
+      campaignData.push(
+        {
+          Name: "test2",
+          Goal: "test",
+          Funding: "test",
+        }
+      );
+    });
+  }
 
   const data = useMemo(() => [
             {
@@ -59,11 +53,6 @@ function DataTable() {
               address: "0xf4F0d31c53027375480c1D494c39b1Dbc6202B20",
             }
           ], [])
-
-  // const data = useMemo(
-  //   () => campaignData,
-  //   [],
-  // )
 
   const columns = useMemo(
     () => [
