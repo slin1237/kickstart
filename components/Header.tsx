@@ -9,6 +9,7 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import LoginButton from './LoginButton';
 import Link from 'next/link';
+import CreateProject from './project/CreateProject';
 
 const Links = ['Home', 'About Us', 'Team'];
 
@@ -55,6 +56,7 @@ export default function Simple() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
+              <CreateProject />
                 <LoginButton />
         </Flex>
         </Flex>

@@ -6,12 +6,14 @@ import { Tabs, TabPanel, TabList, TabPanels, Tab } from "@chakra-ui/tabs";
 import AccountModal from "./AccountModal";
 import Table from "./Table";
 import Header from "./Header";
+import useGetCampaign from "../pages/api/contract";
 
 interface LayoutProps {
     children?: ReactNode;
 }
 
 const Layout: FC<LayoutProps> = ({children}) => {
+    const campaigns = useGetCampaign();
 
     return (
         <div>
@@ -25,6 +27,8 @@ const Layout: FC<LayoutProps> = ({children}) => {
           bg="gray.800"
         >
             <div>
+              {console.log()}
+              {campaigns}
           <Tabs>
         <TabList>
           <Tab>Active Projects</Tab>
