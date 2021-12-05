@@ -1,33 +1,38 @@
 // Layout.tsx
 import {ReactNode, FC, useMemo} from "react";
+import { ethers } from "ethers";
 import { Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useSortBy } from 'react-table'
 import FundProjectButton from "./project/FundProjectButton";
+import { useGetCampaign } from "../pages/api/contract";
+import campaignABI from "../pages/api/CampaignContract.json";
 
 interface TableProps {
     children?: ReactNode;
 }
 
 function DataTable() {
+  const campaignInterface = new ethers.utils.Interface(campaignABI);
+  const campaigns = useGetCampaign()
+  console.log(campaigns)
+  const campaignData = []
+  if (campaigns !== undefined){
+    campaigns.forEach((e) => {
+      var contract = new ethers.Contract(e, campaignInterface);
+      var test = contract.provider;
+      console.log(test);
+      campaignData.push(
+        {
+          Name: "contract.name",
+          Goal: "test",
+          Funding: "test",
+        }
+      );
+    });
+  }
   const data = useMemo(
-    () => [
-      {
-        Name: 'P1',
-        CreationDate: "I'm P1",
-        Funding: "1000"
-      },
-      {
-        Name: 'P2',
-        CreationDate: "I'm P2",
-        Funding: "1000"
-      },
-      {
-        Name: 'P3',
-        CreationDate: "I'm P3",
-        Funding: "1000"
-      },
-    ],
+    () => campaignData,
     [],
   )
 
@@ -38,8 +43,8 @@ function DataTable() {
         accessor: 'Name',
       },
       {
-        Header: 'Creation Date',
-        accessor: 'CreationDate',
+        Header: 'Goal',
+        accessor: 'Goal',
       },
       {
         Header: 'Funding',
