@@ -2,6 +2,8 @@ import { ethers } from "ethers";
 import React, {useEffect} from 'react';
 import { useContractCall } from "@usedapp/core";
 import { Falsy } from "@usedapp/core/dist/esm/src/model/types";
+import campaignGeneratorABI from "./CampaignGeneratorContract.json";
+import campaignABI from "./CampaignContract.json";
 
 // const fs = require('fs');
 // var abiJson = "../../contracts/campaign.json";
@@ -14,23 +16,31 @@ import { Falsy } from "@usedapp/core/dist/esm/src/model/types";
 // var generatorAbiJsonString = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"campaignAddress\",\"type\":\"address\"}],\"name\":\"CampaignCreated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"goal\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"createCampaign\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"campaigns\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAllCampaigns\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]"
 // var parsedGenerator = JSON.parse(generatorAbiJsonString);
 // var generatorAbi = parsedGenerator.abi;
+// testnet
 
-const campaignGeneratorInterface = new ethers.utils.Interface([
-  "function getAllCampaigns()",
-  "function createCampaign(string name, uint256 goal, address tokenAddress)"
-]);
+// const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
 
-const campaignInterface = new ethers.utils.Interface([
-  "function participate(uint256 amount)",
-  "function managerWithdraw(uint256 amount)",
-  "function payParticipants(uint256 amount)",
-  "function setActive(bool _bool)"
-]);
+
+// const campaignGeneratorInterface = new ethers.utils.Interface([
+//   "function getAllCampaigns()",
+//   "function createCampaign(string name, uint256 goal, address tokenAddress)"
+// ]);
+
+// const campaignInterface = new ethers.utils.Interface([
+//   "function participate(uint256 amount)",
+//   "function managerWithdraw(uint256 amount)",
+//   "function payParticipants(uint256 amount)",
+//   "function setActive(bool _bool)"
+// ]);
 
 declare let window: any;
-var campaignGeneratorAddress = "0xe1638d0f9f2618D8b5336aa5E7E305BD1cd2Cd7b";
+export const campaignGeneratorAddress = "0xe1638d0f9f2618D8b5336aa5E7E305BD1cd2Cd7b";
+
+const campaignGeneratorInterface = new ethers.utils.Interface(campaignGeneratorABI);
+const campaignInterface = new ethers.utils.Interface(campaignABI);
 
 export function useGetCampaign() {
+    console.log(campaignGeneratorAddress);
     const [campaigns] =
       useContractCall(
          {
@@ -55,8 +65,8 @@ export function useCreateCampaign(name: string | Falsy, goal: ethers.BigNumber |
             method: 'createCampaign', // Method to be called
             args: [name, goal, tokenAddress], // Method arguments - address to be checked for balance
           }
-      ) ?? [createCampaign];
-    return campaigns;
+      ) ?? [];
+    return createCampaign;
 }
 
 export function participateCampaign(amount: ethers.BigNumber | Falsy, campaignAddress: string | Falsy) {
