@@ -3,27 +3,24 @@ import {
   Box,
   Flex,
   HStack,
-  Link,
   IconButton,
   useDisclosure,
-  useColorModeValue,
-  Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import LoginButton from './LoginButton';
+import Link from 'next/link';
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+const Links = ['Home', 'About Us', 'Team'];
+
+const linkMapping = new Map<string, string>([
+    ['Home', "/"],
+    ["About Us", "about"],
+    ['Team', 'team']
+]);
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
+    href={linkMapping.get(children.toString())}>
     {children}
   </Link>
 );
@@ -33,9 +30,8 @@ export default function Simple() {
 
   return (
     <>
-      {/* If we ever want light/dark mode <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}> */}
+      {/* If we ever want light/dark mode <Box bg={useColorModeValue('gray.100', 'gray.800')} px={4}> */}
       <Box bg={"gray.800"} px={4}>
-
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -62,16 +58,6 @@ export default function Simple() {
                 <LoginButton />
         </Flex>
         </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );
