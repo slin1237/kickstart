@@ -43,16 +43,19 @@ export function useGetCampaign() {
     return campaigns;
 }
 
-export function useCreateCampaign(name, goal, tokenAddress) {
-    const [campaigns] =
+export function useCreateCampaign(name: string | Falsy, goal: ethers.BigNumber | Falsy, tokenAddress: string | Falsy) {
+    const [createCampaign] =
       useContractCall(
+        name&&
+        goal&&
+        tokenAddress&&
          {
             abi: campaignGeneratorInterface, // ABI interface of the called contract
             address: campaignGeneratorAddress, // On-chain address of the deployed contract
             method: 'createCampaign', // Method to be called
             args: [name, goal, tokenAddress], // Method arguments - address to be checked for balance
           }
-      ) ?? [];
+      ) ?? [createCampaign];
     return campaigns;
 }
 
