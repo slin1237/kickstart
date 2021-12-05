@@ -13,18 +13,23 @@ interface TableProps {
 }
 
 function DataTable() {
+  const network = {
+    name: "dev",
+    chainId: 97,
+    ensAddress: "https://data-seed-prebsc-1-s1.binance.org:8545/"
+};
   const campaignInterface = new ethers.utils.Interface(campaignABI);
   const campaigns = useGetCampaign()
   console.log(campaigns)
   const campaignData = []
   if (campaigns !== undefined){
     campaigns.forEach((e) => {
-      var contract = new ethers.Contract(e, campaignInterface);
-      var test = contract.provider;
+      var contract = new ethers.Contract(e, campaignInterface, new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545/"));
+      var test = contract.name();
       console.log(test);
       campaignData.push(
         {
-          Name: "contract.name",
+          Name: "test2",
           Goal: "test",
           Funding: "test",
         }
