@@ -55,8 +55,8 @@ export function useCreateCampaign(name: string | Falsy, goal: ethers.BigNumber |
             method: 'createCampaign', // Method to be called
             args: [name, goal, tokenAddress], // Method arguments - address to be checked for balance
           }
-      ) ?? [createCampaign];
-    return campaigns;
+      ) ?? [];
+    return createCampaign;
 }
 
 export function participateCampaign(amount: ethers.BigNumber | Falsy, campaignAddress: string | Falsy) {
