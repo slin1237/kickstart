@@ -6,7 +6,7 @@ import { Tabs, TabPanel, TabList, TabPanels, Tab } from "@chakra-ui/tabs";
 import AccountModal from "./AccountModal";
 import Table from "./Table";
 import Header from "./Header";
-import useGetCampaign from "../pages/api/contract";
+import { useGetCampaign } from "../pages/api/contract";
 
 interface LayoutProps {
     children?: ReactNode;

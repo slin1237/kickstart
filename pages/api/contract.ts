@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import React, {useEffect} from 'react';
 import { useContractCall } from "@usedapp/core";
+import { Falsy } from "@usedapp/core/dist/esm/src/model/types";
 
 // const fs = require('fs');
 // var abiJson = "../../contracts/campaign.json";
@@ -28,7 +29,7 @@ const campaignInterface = new ethers.utils.Interface([
 declare let window: any;
 var campaignGeneratorAddress = "0xe1638d0f9f2618D8b5336aa5E7E305BD1cd2Cd7b";
 
-export default function useGetCampaign() {
+export function useGetCampaign() {
     const [campaigns] =
       useContractCall(
          {
@@ -39,6 +40,66 @@ export default function useGetCampaign() {
           }
       ) ?? [];
     return campaigns;
+  }
+
+export function participateCampaign(amount: ethers.BigNumber | Falsy, campaignAddress: string | Falsy) {
+    const [participate] =
+      useContractCall(
+        amount&&
+        campaignAddress&&
+         {
+            abi: campaignInterface, // ABI interface of the called contract
+            address: campaignAddress, // On-chain address of the deployed contract
+            method: 'participate', // Method to be called
+            args: [amount], // Method arguments - address to be checked for balance
+          }
+      ) ?? [];
+    return participate;
+  }
+
+export function managerWithdraw(amount: ethers.BigNumber | Falsy, campaignAddress: string | Falsy) {
+    const [managerWithdraw] =
+      useContractCall(
+        amount&&
+        campaignAddress&&
+         {
+            abi: campaignInterface, // ABI interface of the called contract
+            address: campaignAddress, // On-chain address of the deployed contract
+            method: 'managerWithdraw', // Method to be called
+            args: [amount], // Method arguments - address to be checked for balance
+          }
+      ) ?? [];
+    return managerWithdraw;
+  }
+
+export function payParticipants(amount: ethers.BigNumber | Falsy, campaignAddress: string | Falsy) {
+    const [payParticipants] =
+      useContractCall(
+        amount&&
+        campaignAddress&&
+         {
+            abi: campaignInterface, // ABI interface of the called contract
+            address: campaignAddress, // On-chain address of the deployed contract
+            method: 'payParticipants', // Method to be called
+            args: [amount], // Method arguments - address to be checked for balance
+          }
+      ) ?? [];
+    return payParticipants;
+  }
+
+export function setActiveCampaign(bool_val: Boolean | Falsy, campaignAddress: string | Falsy) {
+    const [setActive] =
+      useContractCall(
+        bool_val&&
+        campaignAddress&&
+         {
+            abi: campaignInterface, // ABI interface of the called contract
+            address: campaignAddress, // On-chain address of the deployed contract
+            method: 'setActive', // Method to be called
+            args: [bool_val], // Method arguments - address to be checked for balance
+          }
+      ) ?? [];
+    return setActive;
   }
 
 
