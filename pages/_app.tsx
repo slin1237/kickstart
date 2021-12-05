@@ -1,16 +1,11 @@
 // App.tsx
 import { ChakraProvider } from "@chakra-ui/react";
-import Layout from "../components/Layout";
+import Home from "./index";
 
 export default function App() {
   return (
     <div>
-      fuck
-    {/* <ChakraProvider>
-      <Layout>
-        <p style={{ color: "white" }}>Hello, world!</p>
-      </Layout>
-    </ChakraProvider>       */}
+        <Home/>
     </div>
 
   );
