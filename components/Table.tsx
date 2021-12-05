@@ -8,24 +8,28 @@ import FundProjectButton from "./project/FundProjectButton";
 interface TableProps {
     children?: ReactNode;
 }
-
+//0xf4F0d31c53027375480c1D494c39b1Dbc6202B20,0x13f5511cbb12004F4ECAEa7a7A34C63d11B67539,0x0aa93445C0f43C2b1F894Aac7B4F8B47d42631c8
 function DataTable() {
   const data = useMemo(
     () => [
       {
         Name: 'P1',
         CreationDate: "I'm P1",
-        Funding: "1000"
+        Funding: "1000",
+        address: "0x13f5511cbb12004F4ECAEa7a7A34C63d11B67539"
       },
       {
         Name: 'P2',
         CreationDate: "I'm P2",
-        Funding: "1000"
+        Funding: "1000",
+        address: "0x13f5511cbb12004F4ECAEa7a7A34C63d11B67539"
+
       },
       {
         Name: 'P3',
         CreationDate: "I'm P3",
-        Funding: "1000"
+        Funding: "1000",
+        address: "0x13f5511cbb12004F4ECAEa7a7A34C63d11B67539"
       },
     ],
     [],
@@ -47,7 +51,7 @@ function DataTable() {
       },
       {
         Header:'Fund',
-        accessor: 'Fund',
+        accessor: 'address',
         Cell: ({ cell }) => (
           <FundProjectButton campaignAddress={cell.row.values.address}/>
         )

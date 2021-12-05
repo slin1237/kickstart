@@ -14,10 +14,9 @@ import {
     Select
   } from "@chakra-ui/react";
 import { BigNumber } from '@ethersproject/bignumber';
-import {FC, useCallback, useRef, useState} from 'react';
-import {useCreateCampaign, useContractMethod } from '../../pages/api/contract2';
+import {FC, useRef, useState} from 'react';
 import { Contract } from "@usedapp/core/node_modules/ethers";
-import { ethers, Signer } from "ethers";
+import { ethers } from "ethers";
 import campaignGeneratorABI from "../../pages/api/CampaignGeneratorContract.json";
 import { useContractFunction } from "@usedapp/core";
 
@@ -27,12 +26,6 @@ const campaignGeneratorInterface = new ethers.utils.Interface(campaignGeneratorA
 export const tokenNameToAddressMapping = new Map<string, string>([
     ['BUSD', "0x78867bbeef44f2326bf8ddd1941a4439382ef2a7"],
 ]);
-
-interface CampaignProps {
-  name: string;
-  number: string;
-  tokenAddress: string;
-}
 
 // TODO: refresh the state once metamask confirms
 

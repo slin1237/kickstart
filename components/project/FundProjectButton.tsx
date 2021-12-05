@@ -13,9 +13,15 @@ import {
     useDisclosure,
     Select
   } from "@chakra-ui/react";
-import {FC, useState} from 'react';
+import {FC, useState, useEffect} from 'react';
 import { approve } from "../../pages/api/contract";
 import { tokenNameToAddressMapping } from "./CreateProject";
+import { useContractFunction } from "@usedapp/core";
+import { ethers } from "ethers";
+import campaignABI from "../../pages/api/CampaignContract.json";
+import IBEP20 from "../../pages/api/IBEP20Contract.json";
+import { Contract } from "@usedapp/core/node_modules/ethers";
+import { BigNumber } from '@ethersproject/bignumber';
 
 // TODO: amount * 10 ** (18+1) be sure to submit with this amount to metamask api.
 
@@ -23,7 +29,15 @@ interface Props {
     campaignAddress: string;
 }
 
-const FundProjectButton: FC<Props> = (campaignAddress) => {
+
+const FundProjectButton: FC<Props> = ({ campaignAddress }) => {
+
+    const campaignInterface = new ethers.utils.Interface(campaignABI);
+    const campaignContract = new Contract(campaignAddress, campaignInterface);
+    const busdContract = new Contract("0x78867bbeef44f2326bf8ddd1941a4439382ef2a7", IBEP20);
+
+    const { state: participateState, send: participateSend } = useContractFunction(campaignContract, "participate", {});
+    const { state: approveState, send: approveSend } = useContractFunction(busdContract, "approve", {});
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [amount, setAmount] = useState('');
@@ -34,15 +48,19 @@ const FundProjectButton: FC<Props> = (campaignAddress) => {
     const handleTokenChange = (event) => setTokenName(event.target.value);
 
     const onProjectDonation = (number) => {
-        console.log(parseInt(number));
+        participateSend(parseInt(number));
+        // console.log(parseInt(number));
     }
 
     const onApproveSpending = (campaignAddress, approveAmount, tokenName) => {
         // Call approve spending for campaign contract
-        approve(campaignAddress, approveAmount, tokenNameToAddressMapping.get(tokenName));
-        console.log(campaignAddress);
+        approveSend(campaignAddress, BigNumber.from(approveAmount));
         setApproved(true);
     }
+
+    // useEffect(() => {
+    //   setApproved(true);
+    // }, [approveState])
 
     const modal = () => {
         return(<div>
