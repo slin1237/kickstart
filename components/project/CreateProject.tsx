@@ -15,7 +15,7 @@ import {
   } from "@chakra-ui/react";
 import { BigNumber } from '@ethersproject/bignumber';
 import {FC, useRef, useState} from 'react';
-import {createCampaign} from '../../pages/api/contract';
+// import {createCampaign} from '../../pages/api/contract';
 
 const tokenNameToAddressMapping = new Map<string, string>([
     ['BUSD', "0x78867bbeef44f2326bf8ddd1941a4439382ef2a7"],
@@ -39,7 +39,7 @@ const CreateProject: FC<{}> = () => {
         const onCreateProjectClick = (name, goal, tokenName) => {
             console.log(name, parseInt(goal), tokenNameToAddressMapping.get(tokenName));
             
-            createCampaign(name, BigNumber.from(goal), tokenNameToAddressMapping.get(tokenName));
+            // createCampaign(name, BigNumber.from(goal), tokenNameToAddressMapping.get(tokenName));
             // Close Modal
         };
 
