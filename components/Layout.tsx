@@ -27,7 +27,7 @@ const Layout: FC<LayoutProps> = ({children}) => {
           bg="gray.800"
         >
             <div>
-              {console.log()}
+              {console.log(campaigns)}
               {campaigns}
           <Tabs>
         <TabList>
