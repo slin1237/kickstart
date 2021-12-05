@@ -39,7 +39,7 @@ const FundProjectButton: FC<Props> = (campaignAddress) => {
 
     const onApproveSpending = (campaignAddress, approveAmount, tokenName) => {
         // Call approve spending for campaign contract
-        approve(campaignAddress, approveAmount, tokenNameToAddressMapping[tokenName]);
+        approve(campaignAddress, approveAmount, tokenNameToAddressMapping.get(tokenName));
         console.log(campaignAddress);
         setApproved(true);
     }
