@@ -5,6 +5,7 @@ import ConnectButton from "./ConnectButton";
 import { Tabs, TabPanel, TabList, TabPanels, Tab } from "@chakra-ui/tabs";
 import AccountModal from "./AccountModal";
 import Table from "./Table";
+import Header from "./Header";
 
 interface LayoutProps {
     children?: ReactNode;
@@ -12,19 +13,17 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({children}) => {
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
     return (
+        <div>
+        <Header />
         <Flex
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
+        //   flexDirection="column"
+        //   alignItems="center"
+        //   justifyContent="center"
+          display="flex"
           h="100vh"
           bg="gray.800"
         >
-
-        <ConnectButton handleOpenModal={onOpen} />
-        <AccountModal isOpen={isOpen} onClose={onClose} />
             <div>
           <Tabs>
         <TabList>
@@ -48,6 +47,7 @@ const Layout: FC<LayoutProps> = ({children}) => {
 
           </div>
         </Flex>
+        </div>
       ) 
 }
 
