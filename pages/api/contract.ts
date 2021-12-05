@@ -16,7 +16,8 @@ import { Falsy } from "@usedapp/core/dist/esm/src/model/types";
 // var generatorAbi = parsedGenerator.abi;
 
 const campaignGeneratorInterface = new ethers.utils.Interface([
-  "function getAllCampaigns()"
+  "function getAllCampaigns()",
+  "function createCampaign(string name, uint256 goal, address tokenAddress)"
 ]);
 
 const campaignInterface = new ethers.utils.Interface([
@@ -40,7 +41,20 @@ export function useGetCampaign() {
           }
       ) ?? [];
     return campaigns;
-  }
+}
+
+export function useCreateCampaign(name, goal, tokenAddress) {
+    const [campaigns] =
+      useContractCall(
+         {
+            abi: campaignGeneratorInterface, // ABI interface of the called contract
+            address: campaignGeneratorAddress, // On-chain address of the deployed contract
+            method: 'createCampaign', // Method to be called
+            args: [name, goal, tokenAddress], // Method arguments - address to be checked for balance
+          }
+      ) ?? [];
+    return campaigns;
+}
 
 export function participateCampaign(amount: ethers.BigNumber | Falsy, campaignAddress: string | Falsy) {
     const [participate] =
@@ -101,46 +115,3 @@ export function setActiveCampaign(bool_val: Boolean | Falsy, campaignAddress: st
       ) ?? [];
     return setActive;
   }
-
-
-// const client = () => {
-//     if (typeof window !== "undefined") {
-//         // Client-side-only code
-//             // Connect Wallet
-//         const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-//         // await provider.send("eth_requestAccounts", []);
-//         const signer = provider.getSigner();
-//         // console.log("Account:", await signer.getAddress());
-
-//         // Connect to CampaignGenerator, TODO: Move to static file
-//         var address = "0xd9145CCE52D386f254917e481eB44e9943F39138";
-//         const campaignGenerator = new ethers.Contract(address, abi, signer);
-
-//         // Stablecoin token
-//         var BUSD = "0x78867bbeef44f2326bf8ddd1941a4439382ef2a7"
-
-//         return campaignGenerator;
-//     }
-
-// }
-
-// export async function createCampaign(name, goal, tokenAddress) {
-//     await client().createCampaign(name, goal, tokenAddress);
-// }
-
-// export async function getCampaigns() {
-//     const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-
-//     return client().getCampaigns();
-// }
-
-// // export async function donateToCampaign(campaignAddress, amount) {
-// //         const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-
-// //         const signer = provider.getSigner();
-
-// //         const campaign = new ethers.Contract(campaignAddress, abi, signer);
-// //         await campaign.participate(amount);
-// // }
-
-// export default client;
