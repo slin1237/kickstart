@@ -5,14 +5,15 @@ import { Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useSortBy } from 'react-table'
 import FundProjectButton from "./project/FundProjectButton";
-import { useGetCampaign } from "../pages/api/contract";
+import { managerWithdraw, useGetCampaign } from "../pages/api/contract";
 import campaignABI from "../pages/api/CampaignContract.json";
+import ManagerDisplay from "./project/ManagerWithdraw";
 
 interface TableProps {
     children?: ReactNode;
 }
 //0xf4F0d31c53027375480c1D494c39b1Dbc6202B20,0x13f5511cbb12004F4ECAEa7a7A34C63d11B67539,0x0aa93445C0f43C2b1F894Aac7B4F8B47d42631c8
-function DataTable() {
+function CompletedMock() {
 //   const campaignInterface = new ethers.utils.Interface(campaignABI);
 //   const campaigns = useGetCampaign()
 //   console.log(campaigns)
@@ -41,29 +42,12 @@ function DataTable() {
 
   const data = useMemo(() => [
             {
-              Name: "food drive",
+              Name: "planting trees",
               Goal: "500",
-              Funding: "10",
-              address: "0xf4F0d31c53027375480c1D494c39b1Dbc6202B20",
-            },
-            {
-              Name: "school supplies",
-              Goal: "1000",
-              Funding: "30",
-              address: "0xf4F0d31c53027375480c1D494c39b1Dbc6202B20",
-            },
-            {
-              Name: "corona virus masks",
-              Goal: "500",
-              Funding: "25",
+              Funding: "600",
               address: "0xf4F0d31c53027375480c1D494c39b1Dbc6202B20",
             }
           ], [])
-
-  // const data = useMemo(
-  //   () => campaignData,
-  //   [],
-  // )
 
   const columns = useMemo(
     () => [
@@ -83,7 +67,7 @@ function DataTable() {
         Header:'Fund',
         accessor: 'address',
         Cell: ({ cell }) => (
-          <FundProjectButton campaignAddress={cell.row.values.address}/>
+          <ManagerDisplay data={cell.row.values.address}/>
         )
       }
     ],
@@ -136,4 +120,4 @@ function DataTable() {
   )
 }
 
-export default DataTable;
+export default CompletedMock;

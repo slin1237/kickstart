@@ -13,9 +13,7 @@ import {
     useDisclosure,
     Select
   } from "@chakra-ui/react";
-import {FC, useState, useEffect} from 'react';
-import { approve } from "../../pages/api/contract";
-import { tokenNameToAddressMapping } from "./CreateProject";
+import {FC, useState } from 'react';
 import { useContractFunction } from "@usedapp/core";
 import { ethers } from "ethers";
 import campaignABI from "../../pages/api/CampaignContract.json";

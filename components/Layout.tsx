@@ -7,6 +7,7 @@ import AccountModal from "./AccountModal";
 import Table from "./Table";
 import Header from "./Header";
 import { useGetCampaign } from "../pages/api/contract";
+import CompletedMock from "./CompletedTable";
 
 interface LayoutProps {
     children?: ReactNode;
@@ -31,7 +32,7 @@ const Layout: FC<LayoutProps> = ({children}) => {
         <TabList>
           <Tab>Active Projects</Tab>
           <Tab>Funded Projects</Tab>
-          <Tab>Finished Projects</Tab>
+          {/* <Tab>Finished Projects</Tab> */}
         </TabList>
 
         <TabPanels>
@@ -39,11 +40,11 @@ const Layout: FC<LayoutProps> = ({children}) => {
             <Table/>
           </TabPanel>
           <TabPanel>
-           <Table/>
+           <CompletedMock />
           </TabPanel>
-          <TabPanel>
+          {/* <TabPanel>
            <Table/>
-          </TabPanel>
+          </TabPanel> */}
         </TabPanels>
       </Tabs>
 
