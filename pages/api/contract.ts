@@ -4,12 +4,31 @@ import { useContractCall } from "@usedapp/core";
 import { Falsy } from "@usedapp/core/dist/esm/src/model/types";
 import campaignGeneratorABI from "./CampaignGeneratorContract.json";
 import campaignABI from "./CampaignContract.json";
+import IBEP20ABI from "./IBEP20Contract.json";
 
 declare let window: any;
 export const campaignGeneratorAddress = "0xe1638d0f9f2618D8b5336aa5E7E305BD1cd2Cd7b";
+export const BUSDAddress = "0x78867bbeef44f2326bf8ddd1941a4439382ef2a7"
 
 const campaignGeneratorInterface = new ethers.utils.Interface(campaignGeneratorABI);
 const campaignInterface = new ethers.utils.Interface(campaignABI);
+const IBEP20Interface = new ethers.utils.Interface(IBEP20ABI);
+
+export function approve(spender: string | Falsy, amount: ethers.BigNumber | Falsy, tokenAddress: string | Falsy) {
+  const [approve] =
+    useContractCall(
+      spender&&
+      amount&&
+      tokenAddress&&
+       {
+          abi: IBEP20Interface, // ABI interface of the called contract
+          address: tokenAddress, // On-chain address of the deployed contract
+          method: 'approve', // Method to be called
+          args: [spender, amount], // Method arguments - address to be checked for balance
+        }
+    ) ?? [];
+  return approve;
+}
 
 export function useGetCampaign() {
     console.log(campaignGeneratorAddress);
@@ -37,8 +56,8 @@ export function useCreateCampaign(name: string | Falsy, goal: ethers.BigNumber |
             method: 'createCampaign', // Method to be called
             args: [name, goal, tokenAddress], // Method arguments - address to be checked for balance
           }
-      ) ?? [createCampaign];
-    return campaigns;
+      ) ?? [];
+    return createCampaign;
 }
 
 export function participateCampaign(amount: ethers.BigNumber | Falsy, campaignAddress: string | Falsy) {
