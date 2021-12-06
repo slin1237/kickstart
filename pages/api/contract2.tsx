@@ -8,6 +8,7 @@ import { Contract } from "@usedapp/core/node_modules/ethers";
 
 declare let window: any;
 export const campaignGeneratorAddress = "0xe1638d0f9f2618D8b5336aa5E7E305BD1cd2Cd7b";
+export const harmonyCampaignGeneratorAddress = "one13php26xy9pxgttm8pvtpsmee9q7nzdusmss664"
 
 const campaignGeneratorInterface = new ethers.utils.Interface(campaignGeneratorABI);
 const campaignInterface = new ethers.utils.Interface(campaignABI);
